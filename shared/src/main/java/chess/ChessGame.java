@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -9,9 +10,9 @@ import java.util.Collection;
  * signature of the existing methods.
  */
 public class ChessGame {
-
+    private ChessBoard board;
     public ChessGame() {
-
+        ChessBoard board = new ChessBoard(); // not sure if this should be here
     }
 
     /**
@@ -46,7 +47,17 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-        throw new RuntimeException("Not implemented");
+        //throw new RuntimeException("Not implemented");
+
+        //get piece at position, need color too
+        //Collection<ChessMove> validMoves = new ArrayList<ChessMove>();
+        ChessPiece pieceAtStart = board.getPiece(startPosition);
+        //get positions for each piece
+        //pawn
+        //rook
+        //knight
+        //queen
+        //king
     }
 
     /**

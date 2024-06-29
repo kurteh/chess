@@ -30,7 +30,10 @@ public class ChessPiece {
 
     @Override
     public int hashCode() {
-        return Objects.hash(pieceColor, type);
+        //return Objects.hash(pieceColor, type);
+        int result = pieceColor.hashCode();
+        result = 31 * result + type.hashCode();
+        return result; // check this
     }
 
     /**

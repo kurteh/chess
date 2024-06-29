@@ -92,7 +92,7 @@ public class ChessGame {
 
     public Collection<ChessMove> validKnightMoves(ChessPiece pieceAtStart, ChessPosition startPosition){
         Collection<ChessMove> moves = new ArrayList<>();
-        ArrayList<ArrayList<Integer>> toPlaces = new ArrayList<>();
+        //ArrayList<ArrayList<Integer>> toPlaces = new ArrayList<>();
         if(startPosition.getRow()+2 < 9 && startPosition.getColumn()+1 < 9){
             ChessPosition position = new ChessPosition(startPosition.getRow()+2, startPosition.getColumn()+1);
             ChessMove move = new ChessMove(startPosition,position);
@@ -123,13 +123,13 @@ public class ChessGame {
             ChessMove move = new ChessMove(startPosition,position);
             moves.add(move);
         }
-        if(startPosition.getRow()-2 > 0 && startPosition.getColumn()+1 < 9){
-            ChessPosition position = new ChessPosition(startPosition.getRow()-2, startPosition.getColumn()+1);
+        if(startPosition.getRow()+1 < 9 && startPosition.getColumn()-2 > 0){
+            ChessPosition position = new ChessPosition(startPosition.getRow()+1, startPosition.getColumn()-2);
             ChessMove move = new ChessMove(startPosition,position);
             moves.add(move);
         }
-        if(startPosition.getRow()-1 > 0 && startPosition.getColumn()+2 < 9){
-            ChessPosition position = new ChessPosition(startPosition.getRow()-1, startPosition.getColumn()+2);
+        if(startPosition.getRow()+2 < 9 && startPosition.getColumn()-1 > 0){
+            ChessPosition position = new ChessPosition(startPosition.getRow()+2, startPosition.getColumn()-1);
             ChessMove move = new ChessMove(startPosition,position);
             moves.add(move);
         }

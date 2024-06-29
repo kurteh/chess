@@ -60,6 +60,15 @@ public class ChessMove {
             return true;
         }
         ChessMove other = (ChessMove) obj;
+        if(promotionPiece == null && other.promotionPiece != null){
+            return false;
+        }
+        if(promotionPiece != null && other.promotionPiece == null){
+            return false;
+        }
+        if(promotionPiece == null && other.promotionPiece == null){
+            return startPosition.equals(other.startPosition) && endPosition.equals(other.endPosition);
+        }
         return (startPosition.equals(other.startPosition) && endPosition.equals(other.endPosition)&& promotionPiece.equals(other.promotionPiece));
 
     }

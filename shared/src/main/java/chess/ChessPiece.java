@@ -188,7 +188,6 @@ public class ChessPiece {
 
     public Collection<ChessMove> validKnightMoves(ChessBoard board, ChessPiece pieceAtStart, ChessPosition startPosition){
         Collection<ChessMove> moves = new ArrayList<>();
-        //ArrayList<ArrayList<Integer>> toPlaces = new ArrayList<>();
         if(startPosition.getRow()+2 < 9 && startPosition.getColumn()+1 < 9){
             ChessPosition position = new ChessPosition(startPosition.getRow()+2, startPosition.getColumn()+1);
             if(board.getPiece(position) == null){
@@ -282,13 +281,14 @@ public class ChessPiece {
     }
 
     public Collection<ChessMove> validQueenMoves(ChessBoard board, ChessPiece pieceAtStart, ChessPosition startPosition){
-        Collection<ChessMove> moves = new ArrayList<>();
+        Collection<ChessMove> moves = validBishopMoves(board,pieceAtStart,startPosition);
+        Collection<ChessMove> rookMoves = validRookMoves(board,pieceAtStart,startPosition);
+        moves.addAll(rookMoves);
         return moves;
     }
 
     public Collection<ChessMove> validKingMoves(ChessBoard board, ChessPiece pieceAtStart, ChessPosition startPosition){
         Collection<ChessMove> moves = new ArrayList<>();
-        //can move to any neighboring spot if not same team's piece and not off board
         if(startPosition.getRow()+1 < 9 && startPosition.getColumn()+1 < 9){
             ChessPosition position = new ChessPosition(startPosition.getRow()+1, startPosition.getColumn()+1);
             if(board.getPiece(position) == null){

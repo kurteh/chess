@@ -64,13 +64,15 @@ public class ChessGame {
     }
 
     public boolean hypotheticalMove(ChessMove move){
-        ChessBoard boardCopy = this.board;
-        TeamColor teamTurnCopy = this.teamTurn;
+        //doesn't actually make copy, makes moves.
+        //ChessBoard boardCopy = this.board;
+        //TeamColor teamTurnCopy = this.teamTurn;
+        ChessBoard boardCopy = new ChessBoard(board);//pass in board as parameter, team turn
         ChessPosition startPosition = move.getStartPosition();
         ChessPosition endPosition = move.getEndPosition();
         boardCopy.addPiece(endPosition,boardCopy.getPiece(startPosition));
         boardCopy.addPiece(startPosition,null);
-        if(isInCheck(teamTurnCopy,boardCopy)){
+        if(isInCheck(teamTurn,boardCopy)){
             return false;
         }
         return true;
@@ -102,6 +104,7 @@ public class ChessGame {
         else{
             throw new InvalidMoveException(); // is this right?
         }
+
     }
 
     /**

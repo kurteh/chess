@@ -15,6 +15,18 @@ public class ChessBoard {
         
     }
 
+    public ChessBoard(ChessBoard other){
+        for(int i = 0; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                if (other.getPiece(new ChessPosition(i + 1, j + 1)) != null) {
+                    ChessPiece p = new ChessPiece(other.getPiece(new ChessPosition(i+1,j+1)).getTeamColor(),other.getPiece(new ChessPosition(i+1,j+1)).getPieceType());
+                    squares[i][j] = p;
+                }
+            }
+        }
+    }
+
+
     /**
      * Adds a chess piece to the chessboard
      *

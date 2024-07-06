@@ -52,9 +52,34 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-        throw new RuntimeException("Not implemented");
+        //FINISH IMPLEMENTING
+        Collection<ChessMove> valid = new ArrayList<>();
+        Collection<ChessMove> possible = board.getPiece(startPosition).pieceMoves(board,startPosition);
+
+        return valid;
     }
 
+    public boolean hypotheticalMove(ChessMove move){
+        //FINISH IMPLEMENTING
+        ChessBoard boardCopy = this.board;
+        TeamColor teamTurnCopy = this.teamTurn;
+        ChessPosition startPosition = move.getStartPosition();
+        ChessPosition endPosition = move.getEndPosition();
+        boardCopy.addPiece(endPosition,boardCopy.getPiece(startPosition));
+        boardCopy.addPiece(startPosition,null);
+        if(isInCheck(teamTurnCopy,boardCopy)){
+            return false;
+        }
+        return true;
+    }
+    public void nextTurn(){
+        if(this.teamTurn == TeamColor.BLACK){
+            this.teamTurn = TeamColor.WHITE;
+        }
+        else{
+            this.teamTurn = TeamColor.BLACK;
+        }
+    }
     /**
      * Makes a move in a chess game
      *
@@ -62,7 +87,17 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
+        ChessPosition startPosition = move.getStartPosition();
+        ChessPosition endPosition = move.getEndPosition();
+        Collection<ChessMove> validMoves = validMoves(startPosition);
+        if(validMoves.contains(move)){
+            board.addPiece(endPosition,board.getPiece(startPosition));
+            board.addPiece(startPosition,null);
+            nextTurn();
+        }
+        else{
+            throw new InvalidMoveException(); // is this right?
+        }
     }
 
     /**
@@ -76,6 +111,8 @@ public class ChessGame {
         // see if king's position is in that set of valid moves for the other team
 
         //valid moves for other team and find king
+
+        //THIS DOES NOT ACCOUNT FOR VALID MOVES. THIS MAY NEED TO BE UPDATED
         Collection<ChessMove> otherTeamMoves = new ArrayList<>();
         ChessPosition kingSpot = new ChessPosition(1,1);
         for(int i = 1; i <= 8; i++) {
@@ -87,6 +124,40 @@ public class ChessGame {
                     }
                     if(board.getPiece(place).getTeamColor() == teamColor) {
                         if(board.getPiece(place).getPieceType() == ChessPiece.PieceType.KING){
+                            kingSpot = place;
+                        }
+                    }
+                }
+
+            }
+        }
+        //check if king is in other team's valid move set
+        for(ChessMove move : otherTeamMoves) {
+            if(move.getEndPosition().equals(kingSpot)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    //This is for checking a hypothetical move
+    public boolean isInCheck(TeamColor teamColor, ChessBoard boardCopy) {
+        //get all valid moves for the other team
+        // see if king's position is in that set of valid moves for the other team
+
+        //valid moves for other team and find king
+
+        //THIS DOES NOT ACCOUNT FOR VALID MOVES. THIS MAY NEED TO BE UPDATED
+        Collection<ChessMove> otherTeamMoves = new ArrayList<>();
+        ChessPosition kingSpot = new ChessPosition(1,1);
+        for(int i = 1; i <= 8; i++) {
+            for(int j = 1; j <= 8; j++) {
+                ChessPosition place = new ChessPosition(i, j);
+                if(boardCopy.getPiece(place) != null) {
+                    if (boardCopy.getPiece(place).getTeamColor() != teamColor) {
+                        otherTeamMoves.addAll(boardCopy.getPiece(place).pieceMoves(boardCopy,place));
+                    }
+                    if(boardCopy.getPiece(place).getTeamColor() == teamColor) {
+                        if(boardCopy.getPiece(place).getPieceType() == ChessPiece.PieceType.KING){
                             kingSpot = place;
                         }
                     }

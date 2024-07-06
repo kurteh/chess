@@ -67,6 +67,9 @@ public class ChessGame {
         //doesn't actually make copy, makes moves.
         //ChessBoard boardCopy = this.board;
         //TeamColor teamTurnCopy = this.teamTurn;
+//        if(move.getStartPosition() == null){
+//            return false;
+//        }
         ChessBoard boardCopy = new ChessBoard(board);//pass in board as parameter, team turn
         ChessPosition startPosition = move.getStartPosition();
         ChessPosition endPosition = move.getEndPosition();
@@ -95,7 +98,13 @@ public class ChessGame {
     public void makeMove(ChessMove move) throws InvalidMoveException {
         ChessPosition startPosition = move.getStartPosition();
         ChessPosition endPosition = move.getEndPosition();
+        if(board.getPiece(move.getStartPosition()) == null){
+            throw new InvalidMoveException();
+        }
         Collection<ChessMove> validMoves = validMoves(startPosition);
+//        if(board.getPiece(move.getStartPosition()) == null){
+//            throw new InvalidMoveException();
+//        }
         if(validMoves.contains(move)){
             board.addPiece(endPosition,board.getPiece(startPosition));
             board.addPiece(startPosition,null);

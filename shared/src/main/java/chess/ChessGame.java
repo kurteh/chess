@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -110,10 +111,6 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        //get all valid moves for the other team
-        // see if king's position is in that set of valid moves for the other team
-
-        //valid moves for other team and find king
 
         //THIS DOES NOT ACCOUNT FOR VALID MOVES. THIS MAY NEED TO BE UPDATED
         Collection<ChessMove> otherTeamMoves = new ArrayList<>();
@@ -145,11 +142,6 @@ public class ChessGame {
 
     //This is for checking a hypothetical move
     public boolean isInCheck(TeamColor teamColor, ChessBoard boardCopy) {
-        //get all valid moves for the other team
-        // see if king's position is in that set of valid moves for the other team
-
-        //valid moves for other team and find king
-
         //THIS DOES NOT ACCOUNT FOR VALID MOVES. THIS MAY NEED TO BE UPDATED
         Collection<ChessMove> otherTeamMoves = new ArrayList<>();
         ChessPosition kingSpot = new ChessPosition(1,1);
@@ -214,8 +206,18 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
-        //check if team's valid move set is empty
+        Collection<ChessMove> moves = new ArrayList<>();
+        for(int i = 1; i <= 8; i++) {
+            for(int j = 1; j <= 8; j++) {
+                ChessPosition place = new ChessPosition(i, j);
+                if(board.getPiece(place) != null) {
+                    if(board.getPiece(place).getTeamColor() == teamColor) {
+                        moves.addAll(validMoves(place));
+                    }
+                }
+            }
+        }
+        return moves.isEmpty();
     }
 
     /**
@@ -237,5 +239,17 @@ public class ChessGame {
     }
 
 
+    //do we need this for testing?
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ChessGame chessGame = (ChessGame) o;
+        return board.equals(chessGame.board) && teamTurn == chessGame.teamTurn;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(board, teamTurn);
+    }
 }

@@ -52,15 +52,17 @@ public class ChessGame {
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-        //FINISH IMPLEMENTING
         Collection<ChessMove> valid = new ArrayList<>();
         Collection<ChessMove> possible = board.getPiece(startPosition).pieceMoves(board,startPosition);
-
+        for (ChessMove move : possible) {
+            if(hypotheticalMove(move)){
+                valid.add(move);
+            }
+        }
         return valid;
     }
 
     public boolean hypotheticalMove(ChessMove move){
-        //FINISH IMPLEMENTING
         ChessBoard boardCopy = this.board;
         TeamColor teamTurnCopy = this.teamTurn;
         ChessPosition startPosition = move.getStartPosition();
@@ -72,6 +74,7 @@ public class ChessGame {
         }
         return true;
     }
+
     public void nextTurn(){
         if(this.teamTurn == TeamColor.BLACK){
             this.teamTurn = TeamColor.WHITE;
@@ -139,6 +142,7 @@ public class ChessGame {
         }
         return false;
     }
+
     //This is for checking a hypothetical move
     public boolean isInCheck(TeamColor teamColor, ChessBoard boardCopy) {
         //get all valid moves for the other team
@@ -181,8 +185,25 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
         //if team's valid moves set it empty, return true
+        Collection<ChessMove> moves = new ArrayList<>();
+        for(int i = 1; i <= 8; i++) {
+            for(int j = 1; j <= 8; j++) {
+                ChessPosition place = new ChessPosition(i, j);
+                if(board.getPiece(place) != null) {
+                    if(board.getPiece(place).getTeamColor() == teamColor) {
+                        moves.addAll(validMoves(place));
+                    }
+                }
+
+            }
+        }
+        if(moves.isEmpty()){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     /**

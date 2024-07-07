@@ -73,9 +73,10 @@ public class ChessGame {
         ChessBoard boardCopy = new ChessBoard(board);//pass in board as parameter, team turn
         ChessPosition startPosition = move.getStartPosition();
         ChessPosition endPosition = move.getEndPosition();
+        TeamColor team = boardCopy.getPiece(startPosition).getTeamColor();
         boardCopy.addPiece(endPosition,boardCopy.getPiece(startPosition));
         boardCopy.addPiece(startPosition,null);
-        if(isInCheck(teamTurn,boardCopy)){
+        if(isInCheck(team,boardCopy)){
             return false;
         }
         return true;

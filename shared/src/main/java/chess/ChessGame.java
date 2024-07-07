@@ -64,12 +64,6 @@ public class ChessGame {
     }
 
     public boolean hypotheticalMove(ChessMove move){
-        //doesn't actually make copy, makes moves.
-        //ChessBoard boardCopy = this.board;
-        //TeamColor teamTurnCopy = this.teamTurn;
-//        if(move.getStartPosition() == null){
-//            return false;
-//        }
         ChessBoard boardCopy = new ChessBoard(board);//pass in board as parameter, team turn
         ChessPosition startPosition = move.getStartPosition();
         ChessPosition endPosition = move.getEndPosition();
@@ -131,7 +125,6 @@ public class ChessGame {
      */
     public boolean isInCheck(TeamColor teamColor) {
 
-        //THIS DOES NOT ACCOUNT FOR VALID MOVES. THIS MAY NEED TO BE UPDATED
         Collection<ChessMove> otherTeamMoves = new ArrayList<>();
         ChessPosition kingSpot = new ChessPosition(1,1);
         for(int i = 1; i <= 8; i++) {
@@ -150,7 +143,6 @@ public class ChessGame {
 
             }
         }
-        //check if king is in other team's valid move set
         for(ChessMove move : otherTeamMoves) {
             if(move.getEndPosition().equals(kingSpot)) {
                 return true;
@@ -159,9 +151,7 @@ public class ChessGame {
         return false;
     }
 
-    //This is for checking a hypothetical move
     public boolean isInCheck(TeamColor teamColor, ChessBoard boardCopy) {
-        //THIS DOES NOT ACCOUNT FOR VALID MOVES. THIS MAY NEED TO BE UPDATED
         Collection<ChessMove> otherTeamMoves = new ArrayList<>();
         ChessPosition kingSpot = new ChessPosition(1,1);
         for(int i = 1; i <= 8; i++) {
@@ -180,7 +170,6 @@ public class ChessGame {
 
             }
         }
-        //check if king is in other team's valid move set
         for(ChessMove move : otherTeamMoves) {
             if(move.getEndPosition().equals(kingSpot)) {
                 return true;
@@ -196,7 +185,6 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-        //if team's valid moves set it empty, return true
         Collection<ChessMove> moves = new ArrayList<>();
         for(int i = 1; i <= 8; i++) {
             for(int j = 1; j <= 8; j++) {
@@ -209,7 +197,7 @@ public class ChessGame {
 
             }
         }
-        if(moves.isEmpty()){
+        if(moves.isEmpty() && isInCheck(teamColor)){
             return true;
         }
         else{

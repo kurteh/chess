@@ -98,15 +98,21 @@ public class ChessGame {
     public void makeMove(ChessMove move) throws InvalidMoveException {
         ChessPosition startPosition = move.getStartPosition();
         ChessPosition endPosition = move.getEndPosition();
+
         if(board.getPiece(move.getStartPosition()) == null){
             throw new InvalidMoveException();
         }
+        if(board.getPiece(move.getStartPosition()).getTeamColor() != getTeamTurn()){
+            throw new InvalidMoveException();
+        }
         Collection<ChessMove> validMoves = validMoves(startPosition);
-//        if(board.getPiece(move.getStartPosition()) == null){
-//            throw new InvalidMoveException();
-//        }
         if(validMoves.contains(move)){
-            board.addPiece(endPosition,board.getPiece(startPosition));
+            if(move.getPromotionPiece() != null){
+                board.addPiece(endPosition,new ChessPiece(board.getPiece(move.getStartPosition()).getTeamColor(),move.getPromotionPiece()));
+            }
+            else{
+                board.addPiece(endPosition,board.getPiece(startPosition));
+            }
             board.addPiece(startPosition,null);
             nextTurn();
         }
@@ -219,6 +225,9 @@ public class ChessGame {
      */
     public boolean isInStalemate(TeamColor teamColor) {
         Collection<ChessMove> moves = new ArrayList<>();
+        if(isInCheckmate(teamColor)){
+            return false;
+        }
         for(int i = 1; i <= 8; i++) {
             for(int j = 1; j <= 8; j++) {
                 ChessPosition place = new ChessPosition(i, j);

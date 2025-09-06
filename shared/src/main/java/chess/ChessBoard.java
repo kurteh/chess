@@ -118,6 +118,20 @@ public class ChessBoard {
 
     @Override
     public int hashCode() {
-        return Arrays.deepHashCode(squares);
+        //return Arrays.deepHashCode(squares);
+
+        // Test this method of hashing.
+        int hashed = 1;
+        for(int i = 0; i < 8; i++){
+            for (int j = 0; j < 8; j++){
+                if (squares[i][j] == null){
+                    hashed = hashed + 31 * (i + j);
+                } else {
+                    hashed = hashed + 31 * squares[i][j].hashCode();
+                }
+
+            }
+        }
+        return hashed;
     }
 }

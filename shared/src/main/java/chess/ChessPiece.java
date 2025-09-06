@@ -62,12 +62,23 @@ public class ChessPiece {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object o) {
+        //return super.equals(obj);
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChessPiece that = (ChessPiece) o;
+        if( pieceColor != that.pieceColor){
+            return false;
+        }
+        return type == that.type;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int hashed = 1;
+        hashed = hashed + 31 * pieceColor.hashCode();
+        hashed = hashed + 31 * type.hashCode();
+        return hashed;
     }
 }

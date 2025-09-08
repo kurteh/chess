@@ -137,7 +137,26 @@ public class ChessPiece {
         }
 
         // King move logic
-
+        if (piece.getPieceType() == PieceType.KING) {
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            List<Integer> row_nums = List.of(-1, 0, 1);
+            List<Integer> row_cols = List.of(-1, 0, 1);
+            for (int i : row_nums) {
+                for (int k : row_cols) {
+                    if(start_row + i > 8 || start_col + k > 8){
+                        continue;
+                    }
+                    ChessPosition to_position = new ChessPosition(start_row + i, start_col + k);
+                    if (i == 0 && k == 0) {
+                        continue;
+                    }
+                    if ((board.getPiece(to_position) == null || board.getPiece(to_position).pieceColor != pieceColor)) {
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                }
+            }
+        }
         // Knight move logic
 
         // Pawn move logic

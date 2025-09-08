@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -54,11 +55,98 @@ public class ChessPiece {
      */
     public Collection<ChessMove> pieceMoves(ChessBoard board, ChessPosition myPosition) {
         ChessPiece piece = board.getPiece(myPosition);
+        List<ChessMove> moves = new ArrayList<>();
+        int start_col = myPosition.getColumn();
+        int start_row = myPosition.getRow();
         // below is hardcoded to pass test case
+        //if (piece.getPieceType() == PieceType.BISHOP){
+        //   return List.of(new ChessMove(new ChessPosition(5,4), new ChessPosition(1,8), null));
+        //}
+        //return List.of();
+
+        // Bishop move logic
         if (piece.getPieceType() == PieceType.BISHOP){
-            return List.of(new ChessMove(new ChessPosition(5,4), new ChessPosition(1,8), null));
+            // up right
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while ((start_row < 8) && (start_col < 8)){ // Go up and to the right as long as there is board left.
+                start_row += 1;
+                start_col += 1;
+                ChessPosition to_position = new ChessPosition(start_row, start_col);
+                // Check if position is taken, take the position is the other team has a piece there.
+                if (board.getPiece(to_position) != null){
+                    if (board.getPiece(to_position).pieceColor != piece.pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                } else {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                }
+            }
+            // up left
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while ((start_row < 8) && (start_col > 1)){ // Go up and to the right as long as there is board left.
+                start_row += 1;
+                start_col -= 1;
+                ChessPosition to_position = new ChessPosition(start_row, start_col);
+                // Check if position is taken, take the position is the other team has a piece there.
+                if (board.getPiece(to_position) != null){
+                    if (board.getPiece(to_position).pieceColor != piece.pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                } else {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                }
+            }
+            // down right
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while ((start_row > 1) && (start_col < 8)){ // Go up and to the right as long as there is board left.
+                start_row -= 1;
+                start_col += 1;
+                ChessPosition to_position = new ChessPosition(start_row, start_col);
+                // Check if position is taken, take the position is the other team has a piece there.
+                if (board.getPiece(to_position) != null){
+                    if (board.getPiece(to_position).pieceColor != piece.pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                } else {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                }
+            }
+            // down left
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while ((start_row > 1) && (start_col > 1)){ // Go up and to the right as long as there is board left.
+                start_row -= 1;
+                start_col -= 1;
+                ChessPosition to_position = new ChessPosition(start_row, start_col);
+                // Check if position is taken, take the position is the other team has a piece there.
+                if (board.getPiece(to_position) != null){
+                    if (board.getPiece(to_position).pieceColor != piece.pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                } else {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                }
+            }
         }
-        return List.of();
+
+        // King move logic
+
+        // Knight move logic
+
+        // Pawn move logic
+
+        // Queen move logic
+
+        // Rook move logic
+
+        return moves;
     }
 
     @Override
@@ -77,8 +165,8 @@ public class ChessPiece {
     @Override
     public int hashCode() {
         int hashed = 1;
-        hashed = hashed + 31 * pieceColor.hashCode();
-        hashed = hashed + 31 * type.hashCode();
+        hashed = 31 * hashed +  pieceColor.hashCode();
+        hashed = 31 * hashed +  type.hashCode();
         return hashed;
     }
 }

@@ -38,13 +38,25 @@ public class ChessPosition {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChessPosition that = (ChessPosition) o;
+        if( row != that.getRow()){
+            return false;
+        }
+        if( col != that.getColumn()){
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int hashed = 1;
+        hashed = 31 *hashed  + row;
+        return 31 * hashed + col;
     }
 
 

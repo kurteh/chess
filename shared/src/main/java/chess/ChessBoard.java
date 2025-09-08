@@ -125,9 +125,9 @@ public class ChessBoard {
         for(int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 if (squares[i][j] == null){
-                    hashed = hashed + 31 * (i + j);
+                    hashed = 31 *hashed + (i + j);
                 } else {
-                    hashed = hashed + 31 * squares[i][j].hashCode();
+                    hashed = 31 *hashed + squares[i][j].hashCode();
                 }
 
             }

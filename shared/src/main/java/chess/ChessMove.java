@@ -49,12 +49,46 @@ public class ChessMove {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public boolean equals(Object o) {
+        //return super.equals(obj);
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChessMove that = (ChessMove) o;
+        //if( startPosition != that.getStartPosition()){
+        //    return false;
+        //}
+        //if( endPosition != that.getEndPosition()){
+        //    return false;
+        //}
+        //if( promotionPiece != that.getPromotionPiece()){
+        // return false;
+        //}
+        if (!startPosition.equals(that.getStartPosition())){
+            return false;
+        }
+        if(!endPosition.equals(that.getEndPosition())){
+            return false;
+        }
+        if (promotionPiece == null || that.getPromotionPiece() == null){
+            if (promotionPiece == null && that.getPromotionPiece() == null){
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if(!promotionPiece.equals(that.getPromotionPiece())){
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        int hashed = 1;
+        hashed = 31 * hashed + startPosition.hashCode();
+        hashed = 31 * hashed + endPosition.hashCode();
+        hashed = 31 * hashed + promotionPiece.hashCode();
+        return hashed;
     }
 }

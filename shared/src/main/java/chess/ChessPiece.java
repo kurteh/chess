@@ -164,6 +164,68 @@ public class ChessPiece {
         // Queen move logic
 
         // Rook move logic
+        if (piece.getPieceType() == PieceType.ROOK){
+            //Left
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while (start_row > 1){
+                start_row -= 1;
+                ChessPosition to_position = new ChessPosition(start_row , start_col);
+                if (board.getPiece(to_position) == null) {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                } else {
+                    if (board.getPiece(to_position).pieceColor != pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                }
+            }
+            // Right
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while (start_row < 8){
+                start_row += 1;
+                ChessPosition to_position = new ChessPosition(start_row , start_col);
+                if (board.getPiece(to_position) == null) {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                } else {
+                    if (board.getPiece(to_position).pieceColor != pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                }
+            }
+            // Up
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while (start_col < 8){
+                start_col += 1;
+                ChessPosition to_position = new ChessPosition(start_row , start_col);
+                if (board.getPiece(to_position) == null) {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                } else {
+                    if (board.getPiece(to_position).pieceColor != pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                }
+            }
+            // Down
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while (start_col > 1){
+                start_col -= 1;
+                ChessPosition to_position = new ChessPosition(start_row , start_col);
+                if (board.getPiece(to_position) == null) {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                } else {
+                    if (board.getPiece(to_position).pieceColor != pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                }
+            }
+        }
 
         return moves;
     }

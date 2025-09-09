@@ -144,7 +144,7 @@ public class ChessPiece {
             List<Integer> row_cols = List.of(-1, 0, 1);
             for (int i : row_nums) {
                 for (int k : row_cols) {
-                    if(start_row + i > 8 || start_col + k > 8){
+                    if(start_row + i > 8 || start_col + k > 8 || start_row + i < 1 || start_col + k < 1){
                         continue;
                     }
                     ChessPosition to_position = new ChessPosition(start_row + i, start_col + k);

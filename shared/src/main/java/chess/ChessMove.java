@@ -43,39 +43,29 @@ public class ChessMove {
         return promotionPiece;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%s%s", startPosition, endPosition);
-    }
+//    @Override
+//    public String toString() {
+//        return String.format("%s%s", startPosition, endPosition);
+//    }
 
     @Override
+
     public boolean equals(Object o) {
-        //return super.equals(obj);
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
         ChessMove that = (ChessMove) o;
-        //if( startPosition != that.getStartPosition()){
-        //    return false;
-        //}
-        //if( endPosition != that.getEndPosition()){
-        //    return false;
-        //}
-        //if( promotionPiece != that.getPromotionPiece()){
-        // return false;
-        //}
         if (!startPosition.equals(that.getStartPosition())){
             return false;
         }
         if(!endPosition.equals(that.getEndPosition())){
             return false;
         }
+        if (promotionPiece == null && that.getPromotionPiece() == null){
+            return true;
+        }
         if (promotionPiece == null || that.getPromotionPiece() == null){
-            if (promotionPiece == null && that.getPromotionPiece() == null){
-                return true;
-            } else {
-                return false;
-            }
+            return false;
         }
         if(!promotionPiece.equals(that.getPromotionPiece())){
             return false;
@@ -88,7 +78,22 @@ public class ChessMove {
         int hashed = 1;
         hashed = 31 * hashed + startPosition.hashCode();
         hashed = 31 * hashed + endPosition.hashCode();
-        hashed = 31 * hashed + promotionPiece.hashCode();
+        if(promotionPiece != null) {
+            hashed = 31 * hashed + promotionPiece.hashCode();
+        }
         return hashed;
     }
+
+    @Override
+    public String toString(){
+        String move = "[" + startPosition.getRow() + "," + startPosition.getColumn() + "]" + " " +
+                      "[" + endPosition.getRow() + "," + endPosition.getColumn() + "]";
+        if (promotionPiece != null){
+            move +=  " " + promotionPiece;
+        } else {
+            move += " null";
+        }
+        return move;
+    }
+
 }

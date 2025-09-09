@@ -180,6 +180,103 @@ public class ChessPiece {
         }
 
         // Pawn move logic
+        if (piece.getPieceType() == PieceType.PAWN){
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            if (piece.getTeamColor() == ChessGame.TeamColor.WHITE){
+                // Move forward
+                if (start_row < 7) {
+                    ChessPosition forward = new ChessPosition(start_row + 1, start_col);
+                    if (board.getPiece(forward) == null) {
+                        moves.add(new ChessMove(myPosition, forward, null));
+                    }
+                    // Capture
+                    if (start_col < 8 && board.getPiece(new ChessPosition(start_row+1, start_col+1)) != null && board.getPiece(new ChessPosition(start_row+1, start_col+1)).pieceColor != ChessGame.TeamColor.WHITE){
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row+1, start_col+1), null));
+                    }
+                    if (start_col > 1 && board.getPiece(new ChessPosition(start_row+1, start_col-1)) != null && board.getPiece(new ChessPosition(start_row+1, start_col-1)).pieceColor != ChessGame.TeamColor.WHITE){
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row+1, start_col-1), null));
+                    }
+                }
+                // First move
+                if ( start_row == 2) {
+                    ChessPosition forward_two = new ChessPosition(start_row + 2, start_col);
+                    if (board.getPiece(forward_two) == null && board.getPiece(new ChessPosition(start_row + 1, start_col)) == null) {
+                        moves.add(new ChessMove(myPosition, forward_two, null));
+                    }
+                }
+                // Promotion
+                if (start_row == 7){
+                    ChessPosition forward = new ChessPosition(start_row + 1, start_col);
+                    if (board.getPiece(forward) == null) {
+                        moves.add(new ChessMove(myPosition, forward, PieceType.QUEEN));
+                        moves.add(new ChessMove(myPosition, forward, PieceType.BISHOP));
+                        moves.add(new ChessMove(myPosition, forward, PieceType.ROOK));
+                        moves.add(new ChessMove(myPosition, forward, PieceType.KNIGHT));
+                    }
+                    // Capture
+                    if (start_col < 8 && board.getPiece(new ChessPosition(start_row+1, start_col+1)) != null && board.getPiece(new ChessPosition(start_row+1, start_col+1)).pieceColor != ChessGame.TeamColor.WHITE){
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row+1, start_col+1), PieceType.QUEEN));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row+1, start_col+1), PieceType.BISHOP));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row+1, start_col+1), PieceType.ROOK));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row+1, start_col+1), PieceType.KNIGHT));
+                    }
+                    if (start_col > 1 && board.getPiece(new ChessPosition(start_row+1, start_col-1)) != null && board.getPiece(new ChessPosition(start_row+1, start_col-1)).pieceColor != ChessGame.TeamColor.WHITE){
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row+1, start_col-1), PieceType.QUEEN));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row+1, start_col-1), PieceType.BISHOP));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row+1, start_col-1), PieceType.ROOK));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row+1, start_col-1), PieceType.KNIGHT));
+                    }
+                }
+
+            } else {
+                // Move forward
+                if (start_row > 2) {
+                    ChessPosition forward = new ChessPosition(start_row - 1, start_col);
+                    if (board.getPiece(forward) == null) {
+                        moves.add(new ChessMove(myPosition, forward, null));
+                    }
+                    // Capture
+                    if (start_col < 8 && board.getPiece(new ChessPosition(start_row-1, start_col+1)) != null && board.getPiece(new ChessPosition(start_row-1, start_col+1)).pieceColor != ChessGame.TeamColor.BLACK){
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row-1, start_col+1), null));
+                    }
+                    if (start_col > 1 && board.getPiece(new ChessPosition(start_row-1, start_col-1)) != null && board.getPiece(new ChessPosition(start_row-1, start_col-1)).pieceColor != ChessGame.TeamColor.BLACK){
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row-1, start_col-1), null));
+                    }
+                }
+                // First move
+                if ( start_row == 7) {
+                    ChessPosition forward_two = new ChessPosition(start_row - 2, start_col);
+                    if (board.getPiece(forward_two) == null && board.getPiece(new ChessPosition(start_row - 1, start_col)) == null) {
+                        moves.add(new ChessMove(myPosition, forward_two, null));
+                    }
+                }
+                // Promotion
+                if (start_row == 2){
+                    ChessPosition forward = new ChessPosition(start_row - 1, start_col);
+                    if (board.getPiece(forward) == null) {
+                        moves.add(new ChessMove(myPosition, forward, PieceType.QUEEN));
+                        moves.add(new ChessMove(myPosition, forward, PieceType.BISHOP));
+                        moves.add(new ChessMove(myPosition, forward, PieceType.ROOK));
+                        moves.add(new ChessMove(myPosition, forward, PieceType.KNIGHT));
+                    }
+                    // Capture
+                    if (start_col < 8 && board.getPiece(new ChessPosition(start_row-1, start_col+1)) != null && board.getPiece(new ChessPosition(start_row-1, start_col+1)).pieceColor != ChessGame.TeamColor.BLACK){
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row-1, start_col+1), PieceType.QUEEN));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row-1, start_col+1), PieceType.BISHOP));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row-1, start_col+1), PieceType.ROOK));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row-1, start_col+1), PieceType.KNIGHT));
+                    }
+                    if (start_col > 1 && board.getPiece(new ChessPosition(start_row-1, start_col-1)) != null && board.getPiece(new ChessPosition(start_row-1, start_col-1)).pieceColor != ChessGame.TeamColor.BLACK){
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row-1, start_col-1), PieceType.QUEEN));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row-1, start_col-1), PieceType.BISHOP));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row-1, start_col-1), PieceType.ROOK));
+                        moves.add(new ChessMove(myPosition, new ChessPosition(start_row-1, start_col-1), PieceType.KNIGHT));
+                    }
+                }
+            }
+
+        }
 
         // Queen move logic
         if (piece.getPieceType() == PieceType.QUEEN){
@@ -384,15 +481,14 @@ public class ChessPiece {
 
     @Override
     public boolean equals(Object o) {
-        //return super.equals(obj);
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
         ChessPiece that = (ChessPiece) o;
-        if( pieceColor != that.pieceColor){
+        if( !pieceColor.equals(that.pieceColor)){
             return false;
         }
-        return type == that.type;
+        return type.equals(that.type);
     }
 
     @Override

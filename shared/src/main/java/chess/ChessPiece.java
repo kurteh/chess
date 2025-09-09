@@ -158,6 +158,26 @@ public class ChessPiece {
             }
         }
         // Knight move logic
+        if (piece.getPieceType() == PieceType.KNIGHT){
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            List<Integer> row_nums = List.of(-2,-1, 1, 2);
+            List<Integer> row_cols = List.of(-2,-1, 1, 2);
+            for (int i : row_nums){
+                for (int k : row_cols){
+                    if ( Math.abs(i) == Math.abs(k)){
+                        continue;
+                    }
+                    if (start_row + i > 8 || start_row + i < 1 || start_col + k > 8 || start_col + k < 1){
+                        continue;
+                    }
+                    ChessPosition to_position = new ChessPosition(start_row + i, start_col + k);
+                    if ((board.getPiece(to_position) == null || board.getPiece(to_position).pieceColor != pieceColor)) {
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                }
+            }
+        }
 
         // Pawn move logic
 

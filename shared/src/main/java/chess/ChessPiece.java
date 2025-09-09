@@ -162,8 +162,140 @@ public class ChessPiece {
         // Pawn move logic
 
         // Queen move logic
+        if (piece.getPieceType() == PieceType.QUEEN){
+            // Rook logic.
+            //Left
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while (start_row > 1){
+                start_row -= 1;
+                ChessPosition to_position = new ChessPosition(start_row , start_col);
+                if (board.getPiece(to_position) == null) {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                } else {
+                    if (board.getPiece(to_position).pieceColor != pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                }
+            }
+            // Right
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while (start_row < 8){
+                start_row += 1;
+                ChessPosition to_position = new ChessPosition(start_row , start_col);
+                if (board.getPiece(to_position) == null) {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                } else {
+                    if (board.getPiece(to_position).pieceColor != pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                }
+            }
+            // Up
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while (start_col < 8){
+                start_col += 1;
+                ChessPosition to_position = new ChessPosition(start_row , start_col);
+                if (board.getPiece(to_position) == null) {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                } else {
+                    if (board.getPiece(to_position).pieceColor != pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                }
+            }
+            // Down
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while (start_col > 1){
+                start_col -= 1;
+                ChessPosition to_position = new ChessPosition(start_row , start_col);
+                if (board.getPiece(to_position) == null) {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                } else {
+                    if (board.getPiece(to_position).pieceColor != pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                }
+            }
 
-        // Rook move logic
+            // Bishop logic
+            // up right
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while ((start_row < 8) && (start_col < 8)){ // Go up and to the right as long as there is board left.
+                start_row += 1;
+                start_col += 1;
+                ChessPosition to_position = new ChessPosition(start_row, start_col);
+                // Check if position is taken, take the position is the other team has a piece there.
+                if (board.getPiece(to_position) != null){
+                    if (board.getPiece(to_position).pieceColor != piece.pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                } else {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                }
+            }
+            // up left
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while ((start_row < 8) && (start_col > 1)){ // Go up and to the right as long as there is board left.
+                start_row += 1;
+                start_col -= 1;
+                ChessPosition to_position = new ChessPosition(start_row, start_col);
+                // Check if position is taken, take the position is the other team has a piece there.
+                if (board.getPiece(to_position) != null){
+                    if (board.getPiece(to_position).pieceColor != piece.pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                } else {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                }
+            }
+            // down right
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while ((start_row > 1) && (start_col < 8)){ // Go up and to the right as long as there is board left.
+                start_row -= 1;
+                start_col += 1;
+                ChessPosition to_position = new ChessPosition(start_row, start_col);
+                // Check if position is taken, take the position is the other team has a piece there.
+                if (board.getPiece(to_position) != null){
+                    if (board.getPiece(to_position).pieceColor != piece.pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                } else {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                }
+            }
+            // down left
+            start_col = myPosition.getColumn();
+            start_row = myPosition.getRow();
+            while ((start_row > 1) && (start_col > 1)){ // Go up and to the right as long as there is board left.
+                start_row -= 1;
+                start_col -= 1;
+                ChessPosition to_position = new ChessPosition(start_row, start_col);
+                // Check if position is taken, take the position is the other team has a piece there.
+                if (board.getPiece(to_position) != null){
+                    if (board.getPiece(to_position).pieceColor != piece.pieceColor){
+                        moves.add(new ChessMove(myPosition, to_position, null));
+                    }
+                    break;
+                } else {
+                    moves.add(new ChessMove(myPosition, to_position, null));
+                }
+            }
+        }
+
         if (piece.getPieceType() == PieceType.ROOK){
             //Left
             start_col = myPosition.getColumn();

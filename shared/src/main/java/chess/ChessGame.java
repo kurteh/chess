@@ -9,16 +9,21 @@ import java.util.Collection;
  * signature of the existing methods.
  */
 public class ChessGame {
-
+    private TeamColor teamTurn;
+    private ChessBoard board;
     public ChessGame() {
-
+        ChessBoard emptyBoard = new ChessBoard();
+        emptyBoard.resetBoard();
+        this.board = emptyBoard;
+        this.teamTurn = TeamColor.WHITE;
     }
 
     /**
      * @return Which team's turn it is
      */
     public TeamColor getTeamTurn() {
-        throw new RuntimeException("Not implemented");
+
+        return teamTurn;
     }
 
     /**
@@ -27,7 +32,8 @@ public class ChessGame {
      * @param team the team whose turn it is
      */
     public void setTeamTurn(TeamColor team) {
-        throw new RuntimeException("Not implemented");
+
+        teamTurn = team;
     }
 
     /**
@@ -47,6 +53,10 @@ public class ChessGame {
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
         throw new RuntimeException("Not implemented");
+//        Takes as input a position on the chessboard and returns all moves the piece there
+//        can legally make. If there is no piece at that location, this method returns null.
+//                A move is valid if it is a "piece move" for the piece at the input location and
+//        making that move would not leave the team’s king in danger of check.
     }
 
     /**
@@ -56,7 +66,10 @@ public class ChessGame {
      * @throws InvalidMoveException if move is invalid
      */
     public void makeMove(ChessMove move) throws InvalidMoveException {
-        throw new RuntimeException("Not implemented");
+//        Receives a given move and executes it, provided it is a legal move. If the move is illegal,
+//                it throws an InvalidMoveException. A move is illegal if it is not a "valid" move
+//        for the piece at the starting location, or if it’s not the corresponding team's turn.
+
     }
 
     /**
@@ -66,7 +79,47 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        throw new RuntimeException("Not implemented");
+        //Returns true if the specified team’s King could be captured by an opposing piece.
+        boolean check = false;
+        //Find team's king and save its location
+        int king_row = 0;
+        int king_col = 0;
+
+        for(int i = 0; i < 8; i++){
+            for(int k = 0; k < 8; k++){
+                ChessPosition next_pos = new ChessPosition(i, k);
+                if(board.getPiece(next_pos) != null){
+                    if(board.getPiece(next_pos).getPieceType() == ChessPiece.PieceType.KING){
+                        if(board.getPiece(next_pos).getTeamColor() == teamColor){
+                            king_row = i;
+                            king_col = k;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        ChessPosition king_pos = new ChessPosition(king_row, king_col);
+
+        //Identify if king's location is in any of the available moves for the opposite team
+        //iterate through end positions
+        for(int i = 0; i < 8; i++){
+            for(int k = 0; k < 8; k++){
+                ChessPosition next_pos = new ChessPosition(i, k);
+                if(board.getPiece(next_pos) != null){
+                    if(board.getPiece(next_pos).getTeamColor() != teamColor){
+                        Collection<ChessMove> moves = board.getPiece(next_pos).pieceMoves(board, next_pos);
+                        for(ChessMove move: moves){
+                            if(move.getEndPosition().equals(king_pos)){
+                                check = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return check;
     }
 
     /**
@@ -76,7 +129,11 @@ public class ChessGame {
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
+
         throw new RuntimeException("Not implemented");
+        //Returns true if the given team has no way to protect their king from being captured.
+
+        //check if all available king moves would move the king into check or checkmate
     }
 
     /**
@@ -87,7 +144,9 @@ public class ChessGame {
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
+
         throw new RuntimeException("Not implemented");
+        //Returns true if the given team has no legal moves but their king is not in immediate danger.
     }
 
     /**
@@ -96,7 +155,8 @@ public class ChessGame {
      * @param board the new board to use
      */
     public void setBoard(ChessBoard board) {
-        throw new RuntimeException("Not implemented");
+
+        this.board = board;
     }
 
     /**
@@ -105,6 +165,36 @@ public class ChessGame {
      * @return the chessboard
      */
     public ChessBoard getBoard() {
-        throw new RuntimeException("Not implemented");
+
+        return board;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashed = 17;
+        hashed += 31 * teamTurn.hashCode();
+        hashed += 31 * board.hashCode();
+        return hashed;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChessGame that = (ChessGame) o;
+        if(!teamTurn.equals(that.getTeamTurn())){
+            return false;
+        }
+        if(!board.equals(that.getBoard())){
+            return false;
+        }
+        return true;
+    }
+
+    //do we need to copy the whole game or just the board?
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

@@ -76,7 +76,6 @@ public class ChessGame implements Cloneable{
             ChessBoard copiedBoard = copiedGame.getBoard();
             ChessPosition endPos = move.getEndPosition();
             ChessPosition startPos = move.getStartPosition();
-            //TeamColor color = copiedGame.getTeamTurn();
             copiedBoard.addPiece(endPos, copiedBoard.getPiece(startPos));
             copiedBoard.deletePiece(startPos);
             if(!copiedGame.isInCheck(color)){
@@ -292,18 +291,6 @@ public class ChessGame implements Cloneable{
         }
         return true;
     }
-
-    //do we need to copy the whole game or just the board?
-
-    // This is a shallow copy, we need a deep copy
-//    @Override
-//    public ChessGame clone() {
-//        try {
-//            return (ChessGame) super.clone();
-//        } catch (CloneNotSupportedException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
 
     @Override
     public ChessGame clone() {

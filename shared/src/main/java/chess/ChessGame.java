@@ -1,6 +1,8 @@
 package chess;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * For a class that can manage a chess game, making moves on a board
@@ -52,11 +54,38 @@ public class ChessGame implements Cloneable{
      * startPosition
      */
     public Collection<ChessMove> validMoves(ChessPosition startPosition) {
-        throw new RuntimeException("Not implemented");
 //        Takes as input a position on the chessboard and returns all moves the piece there
 //        can legally make. If there is no piece at that location, this method returns null.
 //                A move is valid if it is a "piece move" for the piece at the input location and
 //        making that move would not leave the team’s king in danger of check.
+
+        //return null if no piece at location
+        if(board.getPiece(startPosition) == null){
+            return null;
+        }
+
+        //get the piece and its moves
+        ChessPiece piece = board.getPiece(startPosition);
+        List<ChessMove> moveValid = new ArrayList<>();
+        Collection<ChessMove> potentialMoves = piece.pieceMoves(board, startPosition);
+
+        //see if each move will put the king in check, if it does do not add it to the final list
+
+        for(ChessMove move : potentialMoves){
+            ChessGame copiedGame = clone();
+            ChessBoard copiedBoard = copiedGame.getBoard();
+            ChessPosition endPos = move.getEndPosition();
+            ChessPosition startPos = move.getStartPosition();
+            TeamColor color = copiedBoard.getPiece(startPos).getTeamColor();
+            copiedBoard.addPiece(endPos, copiedBoard.getPiece(startPos));
+            copiedBoard.deletePiece(startPos);
+            if(!copiedGame.isInCheck(color)){
+                moveValid.add(move);
+            }
+        }
+
+        // return list
+        return moveValid;
     }
 
     /**
@@ -85,8 +114,8 @@ public class ChessGame implements Cloneable{
         int king_row = 0;
         int king_col = 0;
 
-        for(int i = 0; i < 8; i++){
-            for(int k = 0; k < 8; k++){
+        for(int i = 1; i < 9; i++){
+            for(int k = 1; k < 9; k++){
                 ChessPosition next_pos = new ChessPosition(i, k);
                 if(board.getPiece(next_pos) != null){
                     if(board.getPiece(next_pos).getPieceType() == ChessPiece.PieceType.KING){
@@ -103,8 +132,8 @@ public class ChessGame implements Cloneable{
 
         //Identify if king's location is in any of the available moves for the opposite team
         //iterate through end positions
-        for(int i = 0; i < 8; i++){
-            for(int k = 0; k < 8; k++){
+        for(int i = 1; i < 9; i++){
+            for(int k = 1; k < 9; k++){
                 ChessPosition next_pos = new ChessPosition(i, k);
                 if(board.getPiece(next_pos) != null){
                     if(board.getPiece(next_pos).getTeamColor() != teamColor){

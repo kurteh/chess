@@ -76,7 +76,9 @@ public class ChessGame implements Cloneable{
             ChessBoard copiedBoard = copiedGame.getBoard();
             ChessPosition endPos = move.getEndPosition();
             ChessPosition startPos = move.getStartPosition();
-            TeamColor color = copiedBoard.getPiece(startPos).getTeamColor();
+
+//            TeamColor color = copiedBoard.getPiece(startPos).getTeamColor();
+            TeamColor color = copiedGame.getTeamTurn();
             copiedBoard.addPiece(endPos, copiedBoard.getPiece(startPos));
             copiedBoard.deletePiece(startPos);
             if(!copiedGame.isInCheck(color)){
@@ -98,7 +100,39 @@ public class ChessGame implements Cloneable{
 //        Receives a given move and executes it, provided it is a legal move. If the move is illegal,
 //                it throws an InvalidMoveException. A move is illegal if it is not a "valid" move
 //        for the piece at the starting location, or if it’s not the corresponding team's turn.
+        ChessPosition startPos = move.getStartPosition();
+        ChessPosition endPos = move.getEndPosition();
+        ChessPiece piece = board.getPiece(startPos);
+        if(board.getPiece(startPos) == null){
+            throw new InvalidMoveException();
+        }
+        if(board.getPiece(startPos).getTeamColor() != getTeamTurn()){
+            throw new InvalidMoveException();
+        }
+        Collection<ChessMove> moveValid = validMoves(startPos);
+        if(moveValid.contains(move)){
 
+            //do the move
+            //move the piece and account for promotion
+            if(move.getPromotionPiece() == null){
+                // move without promotion
+                board.addPiece(endPos, piece);
+                board.deletePiece(startPos);
+            } else {
+                //move with promotion
+                ChessPiece promotedPiece = new ChessPiece(piece.getTeamColor(), move.getPromotionPiece());
+                board.addPiece(endPos, promotedPiece);
+                board.deletePiece(startPos);
+            }
+            //change team color
+            if(teamTurn == TeamColor.WHITE){
+                teamTurn = TeamColor.BLACK;
+            } else {
+                teamTurn = TeamColor.WHITE;
+            }
+        } else {
+            throw new InvalidMoveException();
+        }
     }
 
     /**

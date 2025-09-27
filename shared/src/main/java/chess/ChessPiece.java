@@ -58,11 +58,6 @@ public class ChessPiece implements Cloneable{
         List<ChessMove> moves = new ArrayList<>();
         int start_col = myPosition.getColumn();
         int start_row = myPosition.getRow();
-        // below is hardcoded to pass test case
-        //if (piece.getPieceType() == PieceType.BISHOP){
-        //   return List.of(new ChessMove(new ChessPosition(5,4), new ChessPosition(1,8), null));
-        //}
-        //return List.of();
 
         // Bishop move logic
         if (piece.getPieceType() == PieceType.BISHOP){

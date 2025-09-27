@@ -68,7 +68,7 @@ public class ChessGame implements Cloneable{
         ChessPiece piece = board.getPiece(startPosition);
         List<ChessMove> moveValid = new ArrayList<>();
         Collection<ChessMove> potentialMoves = piece.pieceMoves(board, startPosition);
-
+        TeamColor color = piece.getTeamColor();
         //see if each move will put the king in check, if it does do not add it to the final list
 
         for(ChessMove move : potentialMoves){
@@ -76,9 +76,7 @@ public class ChessGame implements Cloneable{
             ChessBoard copiedBoard = copiedGame.getBoard();
             ChessPosition endPos = move.getEndPosition();
             ChessPosition startPos = move.getStartPosition();
-
-//            TeamColor color = copiedBoard.getPiece(startPos).getTeamColor();
-            TeamColor color = copiedGame.getTeamTurn();
+            //TeamColor color = copiedGame.getTeamTurn();
             copiedBoard.addPiece(endPos, copiedBoard.getPiece(startPos));
             copiedBoard.deletePiece(startPos);
             if(!copiedGame.isInCheck(color)){
@@ -192,11 +190,31 @@ public class ChessGame implements Cloneable{
      * @return True if the specified team is in checkmate
      */
     public boolean isInCheckmate(TeamColor teamColor) {
-
-        throw new RuntimeException("Not implemented");
         //Returns true if the given team has no way to protect their king from being captured.
 
         //check if all available king moves would move the king into check or checkmate
+
+        //Check king in check
+        if(!isInCheck(teamColor)){
+            return false;
+        }
+
+        //Check all pieces of that team color to see if all are empty
+        for(int i = 1; i < 9; i++){
+            for(int k = 1; k < 9; k++){
+                ChessPosition checkPos = new ChessPosition(i, k);
+                ChessPiece piece = board.getPiece(checkPos);
+                if(piece == null){
+                    continue;
+                }
+                else if (piece.getTeamColor() == teamColor){
+                    if(!validMoves(checkPos).isEmpty()){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -207,9 +225,29 @@ public class ChessGame implements Cloneable{
      * @return True if the specified team is in stalemate, otherwise false
      */
     public boolean isInStalemate(TeamColor teamColor) {
-
-        throw new RuntimeException("Not implemented");
         //Returns true if the given team has no legal moves but their king is not in immediate danger.
+
+        //Check king not in check
+        if(isInCheck(teamColor)){
+            return false;
+        }
+
+        //Check all pieces of that team color to see if all are empty
+        for(int i = 1; i < 9; i++){
+            for(int k = 1; k < 9; k++){
+                ChessPosition checkPos = new ChessPosition(i, k);
+                ChessPiece piece = board.getPiece(checkPos);
+                if(piece == null){
+                    continue;
+                }
+                else if (piece.getTeamColor() == teamColor){
+                    if(!validMoves(checkPos).isEmpty()){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     /**

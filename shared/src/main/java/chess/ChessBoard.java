@@ -97,7 +97,6 @@ public class ChessBoard implements Cloneable{
             return false;
         }
         ChessBoard that = (ChessBoard) o;
-        //return Objects.deepEquals(squares, that.squares);
         for(int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 // Check if both not null
@@ -122,9 +121,6 @@ public class ChessBoard implements Cloneable{
 
     @Override
     public int hashCode() {
-        //return Arrays.deepHashCode(squares);
-
-        // Test this method of hashing.
         int hashed = 1;
         for(int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
@@ -141,7 +137,6 @@ public class ChessBoard implements Cloneable{
 
     @Override
     public ChessBoard clone() {
-//        try{
             ChessBoard clone = new ChessBoard();
             for(int i = 0; i < 8; i++){
                 for (int j = 0; j < 8; j++){
@@ -152,10 +147,6 @@ public class ChessBoard implements Cloneable{
                 }
             }
             return clone;
-//        }
-//        catch (CloneNotSupportedException e) {
-//            throw new RuntimeException(e);
-//        }
 
     }
 }
